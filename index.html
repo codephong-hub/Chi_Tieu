@@ -159,6 +159,7 @@ input[type="text"]{font:inherit;font-size:16px;color:var(--ink);background:var(-
     <div class="lbl">Còn lại tháng này</div>
     <div id="left" class="big"></div>
     <div class="line">Thu <span id="inc" class="pos"></span> · Chi <span id="exp"></span></div>
+    <div class="line">Lũy kế đến hết tháng <span id="cum"></span></div>
   </div>
 
   <div id="wk" class="wk" aria-hidden="true"></div>
@@ -312,6 +313,10 @@ function renderSummary(){
   $("exp").textContent=full(te);
   $("left").textContent=(left<0?"−":"")+full(left);
   $("left").className="big "+(left>0?"pos":(left<0?"neg":"zero"));
+  var lim=key(Y,M,31), cum=0;
+  Object.keys(data).forEach(function(k){if(k<=lim){data[k].forEach(function(t){cum+=(t.t==="thu"?t.a:-t.a);});}});
+  $("cum").textContent=(cum<0?"−":"")+full(cum);
+  $("cum").className=cum>0?"pos":(cum<0?"neg":"zero");
 }
 
 function renderDetail(){
